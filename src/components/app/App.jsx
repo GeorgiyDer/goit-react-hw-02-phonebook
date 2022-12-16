@@ -16,10 +16,11 @@ class App extends React.Component {
   filter: '',
   }
 
-  formSubmitHendler = data => { 
+  formSubmitHendler = data => {
 
     const oldName = this.state.contacts.map(contact => contact.name);
     if (oldName.includes(data.name)) {
+      
       return alert(`${data.name} is already in contacts`);
     }
     const contact = {
@@ -29,9 +30,11 @@ class App extends React.Component {
     }
     
     this.setState(prevState => ({
-      contacts:[contact, ...prevState.contacts]
+      contacts: [contact, ...prevState.contacts]
     }))
-  }
+    return true
+  };
+  
 
   changeFilter = (e) => {
     this.setState({ filter: e.currentTarget.value });

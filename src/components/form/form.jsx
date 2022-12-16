@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import { StyledDivForm, StyledForm, StyledLable, StyledButton, StyledInput} from './form.styled'
 
 class Form extends React.Component { 
-state = {
-  name: '',
-  number: ''
-}
+
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
+  state = {
+    name: '',
+    number: ''
+  }
   inputChange = (e) => {
     const { name, value } = e.currentTarget;
     this.setState({ [name]: value})
@@ -15,15 +20,20 @@ state = {
   formSubmit = (e) => { 
     e.preventDefault(); 
     
-    this.props.onSubmit(this.state)
-    
-    this.reset();
+    // this.props.onSubmit(this.state)
+    if (this.props.onSubmit(this.state) !== true) { 
+      this.reset();
+      return
+    };
+    this.fullReset();
   }
 
   reset = () => { 
+    this.setState({ name: ''})
+  }
+  fullReset = () => { 
     this.setState({ name: '', number: '' })
   }
-  
   render() { 
     return (
       <StyledDivForm>
@@ -55,9 +65,5 @@ state = {
   }
 }
 
-Form.propTypes = {
-    onSubmit: PropTypes.func,
-    
-};
 
 export default Form
